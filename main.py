@@ -1,6 +1,6 @@
 import pygame
 import grid
-from mazemakers import MazeGeneratorDFS as dfs_gen, MazeGeneratorPrims as prims_gen, MazeGeneratorHuntAndKill as hak_gen, MazeGeneratorBinaryTree as btree_gen
+from mazemakers import MazeGeneratorDFS as dfs_gen, MazeGeneratorPrims as prims_gen, MazeGeneratorHuntAndKill as hak_gen, MazeGeneratorBinaryTree as btree_gen, MazeGeneratorOriginShift as ori_gen
 
 WIDTH, HEIGHT = 800, 800
 CELL_SIZE = 20
@@ -13,7 +13,7 @@ pygame.display.set_caption('Maze Generator')
 clock = pygame.time.Clock()
 
 maze_grid = grid.create_grid(ROWS, COLS, CELL_SIZE)
-generator = btree_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
+generator = ori_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 
 running = True
 making_maze = True

@@ -66,10 +66,20 @@ python main.py
 ---
 
 ### 4. **Binary tree Algorithm**
-- Iterates through the entire grid
-- Is the simplest in logic, carves a path randomly north or west - that's it
+- Iterates through the entire grid.
+- Is the simplest in logic, carves a path randomly north or west - that's it.
 - Visualization:
   - Blue fill: Finalized path.
+
+---
+
+### 5. **Origin Shifter Algorithm**
+- Initializes a "perfect" maze with a fully linked "tree".
+- Each step shifts the “origin” by rewiring paths using directional arrows.
+- If a wall exists, it removes the new wall and restores the old one.
+- Visualization:
+  - Blue fill: Modified cell.
+  - Black fill: Unmodified cell.
 
 ---
 
@@ -91,12 +101,12 @@ python main.py
 You can change the maze generation algorithm by modifying this line in `main.py`:
 
 ```python
-generator = btree_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
+generator = ori_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 ```
 
 Available options:
 ```python
-dfs_gen, hak_gen, prims_gen, btree_gen
+dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen
 ```
 
 Just replace as required
