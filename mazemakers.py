@@ -180,3 +180,41 @@ class MazeGeneratorHuntAndKill:
             return False
         return False
 
+class MazeGeneratorBinaryTree:
+    def __init__(self, grid, rows, cols, xs, ys, xe, ye):
+        self.grid = grid
+        self.rows = rows
+        self.cols = cols
+        self.start = grid[xs][ys]
+        self.end = grid[xe][ye]
+        self.current = grid[0][0]
+        self.done = False
+
+    def step(self):
+        if self.done:
+            return False
+
+        self.current.finalized = True
+        r, c = self.current.row, self.current.col
+
+        neighbors = []
+        if r > 0:
+            neighbors.append(self.grid[r - 1][c])  # north
+        if c < self.cols - 1:
+            neighbors.append(self.grid[r][c + 1])  # east
+
+        if neighbors:
+            neighbor = random.choice(neighbors)
+            remove_walls(self.current, neighbor)
+            neighbor.finalized = True
+
+        # Move to next cell in row-major order
+        if c < self.cols - 1:
+            self.current = self.grid[r][c + 1]
+        elif r < self.rows - 1:
+            self.current = self.grid[r + 1][0]
+        else:
+            self.done = True
+            return False
+
+        return True

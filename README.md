@@ -1,6 +1,6 @@
 # Maze Generator Visualizer (WIP)
 
-A **visual maze generation tool** using `pygame` in Python, featuring **different algorithms**:  
+A **visual maze generation tool** using `pygame` in Python, **with multiple algorithms**:  
 Each algorithm runs step-by-step and visualizes the maze construction live with animated updates.
 
 ---
@@ -65,6 +65,14 @@ python main.py
 
 ---
 
+### 4. **Binary tree Algorithm**
+- Iterates through the entire grid
+- Is the simplest in logic, carves a path randomly north or west - that's it
+- Visualization:
+  - Blue fill: Finalized path.
+
+---
+
 ## Cell Color Codes
 
 | Color         | Meaning                          |
@@ -83,15 +91,15 @@ python main.py
 You can change the maze generation algorithm by modifying this line in `main.py`:
 
 ```python
-generator = hak_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
+generator = btree_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 ```
 
 Available options:
 ```python
-dfs_gen, hak_gen, prims_gen
+dfs_gen, hak_gen, prims_gen, btree_gen
 ```
 
-Just replace `hak_gen` as required
+Just replace as required
 
 ---
 
