@@ -83,6 +83,15 @@ python main.py
 
 ---
 
+### 6. **Sidewinder Algorithm**
+- Connects entire first row.
+- Processes each row, either by creating a "run" set by removing walls to the east, or by creating a connection of this "run" set to the upper row by a north passage.
+- Visualization:
+  - Blue fill: Finalized cell.
+  - Orange fill: Cells in current "run" set.
+
+---
+
 ## Cell Color Codes
 
 | Color         | Meaning                          |
@@ -101,12 +110,12 @@ python main.py
 You can change the maze generation algorithm by modifying this line in `main.py`:
 
 ```python
-generator = ori_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
+generator = side_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 ```
 
 Available options:
 ```python
-dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen
+dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen, side_gen
 ```
 
 Just replace as required

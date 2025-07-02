@@ -348,4 +348,75 @@ class MazeGeneratorOriginShift:
         self.current.finalized = True
         return True
 
+class MazeGeneratorSidewinder:
+    def __init__(self, grid, rows, cols, xs, ys, xe, ye):
+        self.grid = grid
+        self.rows = rows
+        self.cols = cols
+        self.start = grid[xs][ys]
+        self.end = grid[xe][ye]
+        self.current = self.start
+        self.current.finalized = True
 
+        self.atrow = 0
+        self.atcol = 0
+        self.run = []
+
+    def step(self):
+        if self.atrow == 0:
+            if self.atcol < self.cols - 1:
+                current = self.grid[0][self.atcol]
+                right = self.grid[0][self.atcol + 1]
+                right.finalized = True
+                remove_walls(current, right)
+                self.atcol += 1
+                self.current = right
+                return True
+            elif self.atcol == self.cols - 1:
+                self.atrow += 1
+                self.atcol = 0
+                self.current = self.grid[self.atrow][self.atcol]
+                self.current.processing = True
+                self.run.append(self.current)
+                return True
+        else:
+            if self.atcol < self.cols - 1:
+                ch = random.choice([0, 1])
+                if ch == 0:
+                    self.atcol += 1
+                    next_cell = self.grid[self.atrow][self.atcol]
+                    remove_walls(self.current, next_cell)
+                    next_cell.processing = True
+                    self.run.append(next_cell)
+                    self.current = self.grid[self.atrow][self.atcol]
+                    return True
+                else:
+                    temp = random.choice(self.run)
+                    up_cell = self.grid[temp.row-1][temp.col]
+                    remove_walls(temp, up_cell)
+                    for cell in self.run:
+                        cell.processing = False
+                        cell.finalized = True
+                    self.run.clear()
+                    self.atcol += 1
+                    self.current = self.grid[self.atrow][self.atcol]
+                    self.current.processing = True
+                    self.run.append(self.current)
+                    return True
+            elif self.atcol == self.cols - 1:
+                temp = random.choice(self.run)
+                up_cell = self.grid[temp.row-1][temp.col]
+                remove_walls(temp, up_cell)
+                for cell in self.run:
+                    cell.processing = False
+                    cell.finalized = True
+                self.run.clear()
+                self.atcol = 0
+                self.atrow += 1
+                if self.atrow == self.rows:
+                    return False
+                self.current = self.grid[self.atrow][self.atcol]
+                self.current.processing = True
+                self.run.append(self.current)
+                return True
+        return False
