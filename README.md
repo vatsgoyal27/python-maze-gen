@@ -92,6 +92,25 @@ python main.py
 
 ---
 
+### 7. **Kruskals Algorithm**
+- Treats each cell as its own disjoint set.
+- Processes random walls; removes them only if they connect disjoint sets.
+- Ensures no cycles while creating a fully connected maze.
+- Visualization:
+  - Blue fill: Finalized cell.
+  - Orange fill: Currently merged set.
+
+---
+
+### 8. **Growing Tree Algorithm**
+- Starts with one cell and grows a path by choosing neighbors.
+- Behavior depends on selection strategy (e.g., newest, random), backtracks via this strategy to select a new growing point when exceeding set length or when it has no valid neighbors
+- Visualization:
+  - Blue fill: Finalized cell.
+  - Orange fill: Actively growing cells.
+
+---
+
 ## Cell Color Codes
 
 | Color         | Meaning                          |
@@ -115,7 +134,7 @@ generator = side_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 
 Available options:
 ```python
-dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen, side_gen
+dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen, side_gen, krus_gen, grow_gen
 ```
 
 Just replace as required

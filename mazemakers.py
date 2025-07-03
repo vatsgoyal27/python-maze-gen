@@ -420,3 +420,107 @@ class MazeGeneratorSidewinder:
                 self.run.append(self.current)
                 return True
         return False
+
+class MazeGeneratorKruskal:
+    def __init__(self, grid, rows, cols, xs, ys, xe, ye):
+        self.grid = grid
+        self.rows = rows
+        self.cols = cols
+        self.start = grid[xs][ys]
+        self.end = grid[xe][ye]
+        self.current = self.start
+
+        self.regions = [[r * cols + c for c in range(cols)] for r in range(rows)]
+        self.edges = []
+
+        for r in range(rows):
+            for c in range(cols):
+                if r + 1 < rows:
+                    self.edges.append(((r, c), (r + 1, c)))
+                if c + 1 < cols:
+                    self.edges.append(((r, c), (r, c + 1)))
+
+        random.shuffle(self.edges)
+        self.index = 0
+
+    def merge_regions(self, old_id, new_id):
+        for r in range(self.rows):
+            for c in range(self.cols):
+                if self.regions[r][c] == old_id:
+                    self.regions[r][c] = new_id
+
+    def step(self):
+        if self.index >= len(self.edges):
+            return False
+
+        (r1, c1), (r2, c2) = self.edges[self.index]
+        self.index += 1
+
+        reg1 = self.regions[r1][c1]
+        self.current = self.grid[r1][c1]
+        reg2 = self.regions[r2][c2]
+
+        if reg1 != reg2:
+            self.grid[r1][c1].finalized = True
+            self.grid[r2][c2].finalized = True
+            remove_walls(self.grid[r1][c1], self.grid[r2][c2])
+            self.merge_regions(reg2, reg1)
+
+        return True
+
+class MazeGeneratorGrowingTree:
+    def __init__(self, grid, rows, cols, xs, ys, xe, ye):
+        self.grid = grid
+        self.rows = rows
+        self.cols = cols
+        self.start = grid[xs][ys]
+        self.end = grid[xe][ye]
+        self.current = self.start
+        self.count = 0
+
+        self.active = [self.start]
+        self.start.processing = True
+        self.max_grow = 10  # how many neighbors to consider before fallback
+
+    def get_unvisited_neighbors(self, cell):
+        neighbors = []
+        r, c = cell.row, cell.col
+        directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < self.rows and 0 <= nc < self.cols:
+                neighbor = self.grid[nr][nc]
+                if not neighbor.finalized and not neighbor.processing:
+                    neighbors.append(neighbor)
+        return neighbors
+
+    def step(self):
+        if not self.active:
+            return False
+        if self.count < self.max_grow:
+            neighbors = self.get_unvisited_neighbors(self.current)
+            if neighbors:
+                next_cell = random.choice(neighbors)
+                remove_walls(self.current, next_cell)
+                next_cell.processing = True
+                self.active.append(next_cell)
+                self.current = next_cell
+                self.count += 1
+                return True
+            else:
+                # dead end, remove from active list
+                if self.current in self.active:
+                    self.active.remove(self.current)
+                    self.current.processing = False
+                    self.current.finalized = True
+                self.count = self.max_grow
+                return True
+        else:
+            # Fallback: pick another active cell
+            if self.active:
+                # modify this logic to change how the maze is generated
+                self.current = random.choice(self.active)
+                self.count = 0
+                return True
+            return False
+
