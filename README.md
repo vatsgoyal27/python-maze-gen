@@ -149,7 +149,7 @@ python main.py
 You can change the maze generation algorithm by modifying this line in `main.py`:
 
 ```python
-generator = side_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
+generator = <codename>_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 ```
 
 Available options:
