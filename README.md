@@ -1,4 +1,4 @@
-# Maze Generator Visualizer (WIP)
+# Maze Generator Visualizer
 
 A **visual maze generation tool** using `pygame` in Python, **with multiple algorithms**:  
 Each algorithm runs step-by-step and visualizes the maze construction live with animated updates.
@@ -167,8 +167,8 @@ Just replace as required
 You can tweak parameters like resolution and cell size at the top of `main.py`:
 
 ```python
-WIDTH, HEIGHT = 800, 800
-CELL_SIZE = 20
+WIDTH, HEIGHT = 500, 500
+CELL_SIZE = 50
 FPS = 60
 ```
 
