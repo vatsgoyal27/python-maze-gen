@@ -10,9 +10,10 @@ from mazemakers import (MazeGeneratorDFS as dfs_gen,
                         MazeGeneratorGrowingTree as grow_gen,
                         MazeGeneratorWilson as wil_gen,)
 
-WIDTH, HEIGHT = 800, 800
+WIDTH, HEIGHT = 900, 80
 CELL_SIZE = 20
-ROWS, COLS = WIDTH // CELL_SIZE, HEIGHT // CELL_SIZE
+ROWS = HEIGHT // CELL_SIZE
+COLS = WIDTH // CELL_SIZE
 FPS = 60
 
 pygame.init()
