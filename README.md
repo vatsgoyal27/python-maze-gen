@@ -104,10 +104,21 @@ python main.py
 
 ### 8. **Growing Tree Algorithm**
 - Starts with one cell and grows a path by choosing neighbors.
-- Behavior depends on selection strategy (e.g., newest, random), backtracks via this strategy to select a new growing point when exceeding set length or when it has no valid neighbors
+- Behavior depends on selection strategy (e.g., newest, random), backtracks via this strategy to select a new growing point when exceeding set length or when it has no valid neighbors.
 - Visualization:
   - Blue fill: Finalized cell.
   - Orange fill: Actively growing cells.
+
+---
+
+### 9. **Wilsons Algorithm**
+- Begins by selecting one random cell and marking it as part of the maze.
+- Repeatedly performs a loop-erased random walk (a random walk that removes any loops it creates as it goes) from a random unvisited cell until it connects to the maze.
+- On reaching the maze, the path is finalized.
+- Can toggle backtrack prevention for random walk to increase generation speed
+- Visualization:
+  - Blue fill: Finalized cell.
+  - Orange fill: Active walk path.
 
 ---
 
@@ -134,7 +145,7 @@ generator = side_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 
 Available options:
 ```python
-dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen, side_gen, krus_gen, grow_gen
+dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen, side_gen, krus_gen, grow_gen, wil_gen
 ```
 
 Just replace as required

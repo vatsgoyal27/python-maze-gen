@@ -1,4 +1,6 @@
 import random
+from operator import truediv
+
 
 def remove_walls(a, b):
     dx = a.col - b.col
@@ -523,4 +525,85 @@ class MazeGeneratorGrowingTree:
                 self.count = 0
                 return True
             return False
+
+class MazeGeneratorWilson:
+    def __init__(self, grid, rows, cols, xs, ys, xe, ye):
+        self.grid = grid
+        self.rows = rows
+        self.cols = cols
+        self.start = grid[xs][ys]
+        self.end = grid[xe][ye]
+        self.current = self.start
+        self.not_maze = [cell for row in grid for cell in row]
+        self.path = []
+
+        #set first cell of maze
+        first = random.choice(self.not_maze)
+        first.finalized = True
+        self.not_maze.remove(first)
+
+        #set new cell to begin random walk
+        self.current = random.choice(self.not_maze)
+        self.prev = self.current
+        self.current.processing = True
+        self.path.append(self.current)
+
+    def get_neighbors(self, cell, prev_cell):
+        neighbors = []
+        r, c = cell.row, cell.col
+        directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]  # top, right, bottom, left
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < self.rows and 0 <= nc < self.cols:
+                neighbor = self.grid[nr][nc]
+
+                # Uncomment below line to skip the immediate backtrack:
+                if neighbor == prev_cell: continue
+
+                neighbors.append(neighbor)
+        return neighbors
+
+    def step(self):
+        if not self.not_maze:
+            return False
+        neighbors = self.get_neighbors(self.current, self.prev)
+        next_cell = random.choice(neighbors)
+        if next_cell.finalized:
+            remove_walls(self.current, next_cell)
+            while len(self.path) > 1:
+                latter = self.path.pop()
+                former = self.path[-1]
+                remove_walls(latter, former)
+                latter.processing = False
+                latter.finalized = True
+                if latter in self.not_maze:
+                    self.not_maze.remove(latter)
+            # Finalize the last remaining cell
+            last = self.path.pop()
+            last.processing = False
+            last.finalized = True
+            self.not_maze.remove(last)
+
+            if not self.not_maze:
+                return False
+            self.current = random.choice(self.not_maze)
+            self.prev = self.current
+            self.current.processing = True
+            self.path.append(self.current)
+            return True
+        elif next_cell.processing:
+            while next_cell != self.path[-1]:
+                self.path[-1].processing = False
+                self.path.pop()
+            self.current = next_cell
+            self.prev = self.current
+            return True
+        else:
+            self.prev = self.current
+            self.current = next_cell
+            self.path.append(self.current)
+            self.current.processing = True
+            return True
+
+
 
