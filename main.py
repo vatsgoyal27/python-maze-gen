@@ -8,10 +8,11 @@ from mazemakers import (MazeGeneratorDFS as dfs_gen,
                         MazeGeneratorSidewinder as side_gen,
                         MazeGeneratorKruskal as krus_gen,
                         MazeGeneratorGrowingTree as grow_gen,
-                        MazeGeneratorWilson as wil_gen,)
+                        MazeGeneratorWilson as wil_gen,
+                        MazeGeneratorAldousBroder as albr_gen)
 
-WIDTH, HEIGHT = 900, 80
-CELL_SIZE = 20
+WIDTH, HEIGHT = 500, 500
+CELL_SIZE = 50
 ROWS = HEIGHT // CELL_SIZE
 COLS = WIDTH // CELL_SIZE
 FPS = 60
@@ -22,7 +23,7 @@ pygame.display.set_caption('Maze Generator')
 clock = pygame.time.Clock()
 
 maze_grid = grid.create_grid(ROWS, COLS, CELL_SIZE)
-generator = wil_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
+generator = albr_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 
 running = True
 making_maze = True

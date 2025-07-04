@@ -605,5 +605,43 @@ class MazeGeneratorWilson:
             self.current.processing = True
             return True
 
+class MazeGeneratorAldousBroder:
+    def __init__(self, grid, rows, cols, xs, ys, xe, ye):
+        self.grid = grid
+        self.rows = rows
+        self.cols = cols
+        self.start = grid[xs][ys]
+        self.end = grid[xe][ye]
+        self.total_cells = self.rows * self.cols
+
+        self.current = self.start
+        self.current.finalized = True
+        self.visited_count = 1
+
+    def get_neighbors(self, cell):
+        r, c = cell.row, cell.col
+        directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]  # N, E, S, W
+        neighbors = []
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < self.rows and 0 <= nc < self.cols:
+                neighbors.append(self.grid[nr][nc])
+        return neighbors
+
+    def step(self):
+        if self.visited_count >= self.total_cells:
+            return False
+
+        neighbors = self.get_neighbors(self.current)
+        next_cell = random.choice(neighbors)
+
+        if not next_cell.finalized:
+            remove_walls(self.current, next_cell)
+            next_cell.finalized = True
+            self.visited_count += 1
+
+        self.current = next_cell
+        return True
+
 
 

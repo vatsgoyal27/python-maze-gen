@@ -122,6 +122,15 @@ python main.py
 
 ---
 
+### 10. **Aldous Broder Algorithm**
+- Starts at a random cell and walks randomly to neighbors.
+- Removes walls only when visiting a cell for the first time.
+- Repeats until all cells are visited, creating a perfect maze.
+- Visualization:
+  - Blue fill: Finalized cell.
+
+---
+
 ## Cell Color Codes
 
 | Color         | Meaning                          |
@@ -145,7 +154,8 @@ generator = side_gen(maze_grid, ROWS, COLS, 0, 0, ROWS-1, COLS-1)
 
 Available options:
 ```python
-dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen, side_gen, krus_gen, grow_gen, wil_gen
+dfs_gen, hak_gen, prims_gen, btree_gen, ori_gen, 
+side_gen, krus_gen, grow_gen, wil_gen, albr_gen
 ```
 
 Just replace as required
